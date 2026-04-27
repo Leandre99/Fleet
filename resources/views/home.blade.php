@@ -98,7 +98,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <img src="vip_car_interior_1777286689994.png" class="img-fluid rounded-4 shadow" alt="VIP Interior">
+                <img src="/luxury_car_interior_vip.png" class="img-fluid rounded-4 shadow" alt="VIP Interior">
             </div>
             <div class="col-lg-6 ps-lg-5 mt-4 mt-lg-0">
                 <h2 class="fw-bold mb-4">Un service VIP sur mesure</h2>

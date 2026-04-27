@@ -14,7 +14,7 @@
             <!-- Airport Transfer -->
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
-                    <div style="height: 200px; background: url('hero_luxury_car_dubai_1777286231783.png') center/cover;"></div>
+                    <div style="height: 200px; background: url('/luxury_hero_car_bg.png') center/cover;"></div>
                     <div class="card-body p-4">
                         <h4 class="fw-bold">Transferts Aéroport</h4>
                         <p class="text-muted">Accueil personnalisé aux aéroports (CDG, Orly, Dubaï DXB, Londres Heathrow). Gestion des bagages et suivi des vols.</p>

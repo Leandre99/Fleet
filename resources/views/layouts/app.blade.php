@@ -32,13 +32,13 @@
                     <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link" href="/services">Nos Services</a></li>
                     <li class="nav-item"><a class="nav-link" href="/tarifs">Tarifs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/a-propos">À Propos</a></li>
                     <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                     
                     @auth
                         <li class="nav-item ms-lg-3"><a class="nav-link fw-bold text-success" href="{{ route('dashboard') }}"><i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}</a></li>
                     @else
                         <li class="nav-item ms-lg-3"><a class="nav-link" href="{{ route('login') }}">Connexion</a></li>
-                        <li class="nav-item"><a class="btn btn-outline-success btn-sm ms-2" href="{{ route('register') }}">S'inscrire</a></li>
                     @endauth
 
                     <li class="nav-item ms-lg-3">
@@ -82,8 +82,8 @@
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h5 class="text-uppercase mb-4 font-weight-bold text-success">Services</h5>
                     <p><a href="/services" class="text-white" style="text-decoration: none;">Transfert Aéroport</a></p>
-                    <p><a href="/services" class="text-white" style="text-decoration: none;">Course en Ville</a></p>
-                    <p><a href="/services" class="text-white" style="text-decoration: none;">Service VIP</a></p>
+                    <p><a href="/a-propos" class="text-white" style="text-decoration: none;">À Propos</a></p>
+                    <p><a href="/contact" class="text-white" style="text-decoration: none;">Contact</a></p>
                 </div>
                 <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
                     <h5 class="text-uppercase mb-4 font-weight-bold text-success">Contact</h5>
