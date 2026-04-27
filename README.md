@@ -1,56 +1,98 @@
-# Fleet Premium - Plateforme de Gestion de Flotte de Luxe
+# 🚗 Fleet Premium - Plateforme de Transport de Luxe
 
-Fleet Premium est une application web moderne inspirée de solutions comme Uber, Yango ou Gozem. Elle permet la mise en relation de clients avec des chauffeurs professionnels pour des trajets de luxe dans les grandes métropoles (Paris, Londres, Dubaï).
+Fleet Premium est une application web de gestion de flotte et de réservation de véhicules avec chauffeur (VTC), conçue pour offrir une expérience utilisateur haut de gamme (similaire à Uber, Yango ou Gozem).
 
-## 🚀 Fonctionnalités
-
-### Pour les Clients
-- **Réservation en temps réel** : Estimation du prix et de la distance instantanée.
-- **Suivi de course** : Carte interactive avec animation du trajet et mises à jour de statut automatiques.
-- **Historique des courses** : Consultation de tous les trajets passés.
-- **Gestion du profil** : Modification des informations personnelles.
-
-### Pour les Chauffeurs
-- **Tableau de bord dédié** : Visualisation des courses en attente à proximité.
-- **Gestion du cycle de vie** : Acceptation, démarrage et finalisation des trajets.
-- **Statistiques** : Suivi des gains et de l'activité quotidienne.
-
-### Pour l'Administrateur
-- **Dashboard avec Sidebar** : Interface de gestion complète et isolée.
-- **Statistiques globales** : Revenus totaux, volume de courses, nombre de chauffeurs.
-- **Monitoring** : Surveillance de l'activité sur la plateforme.
-
-## 🛠️ Stack Technique
-- **Framework** : Laravel 12 (PHP)
-- **Frontend** : Blade Templates + Bootstrap 5
-- **Design** : Charte graphique Premium (Blanc & Vert), AOS.js (Animations)
-- **Interactivité** : Leaflet.js (Cartographie), Polling JS (Mise à jour en temps réel)
-- **Authentification** : Laravel Breeze
-
-## 🔑 Comptes de Démo (Mot de passe: `password`)
-- **Admin** : `admin@fleet.com`
-- **Chauffeur** : `driver@fleet.com`
-- **Client** : `client@fleet.com`
-
-## 📦 Installation
-
-1. Cloner le projet :
-   ```bash
-   git clone https://github.com/Leandre99/Fleet.git
-   ```
-2. Installer les dépendances PHP :
-   ```bash
-   composer install
-   ```
-3. Configurer le fichier `.env` (Base de données).
-4. Lancer les migrations et le seeder :
-   ```bash
-   php artisan migrate:fresh --seed --class=UserRoleSeeder
-   ```
-5. Lancer le serveur :
-   ```bash
-   php artisan serve
-   ```
+Le projet est construit avec **Laravel 12** et **Bootstrap 5**, mettant l'accent sur une esthétique moderne et une logique métier complète.
 
 ---
-Développé avec passion pour **Fleet Premium**.
+
+## 🌟 Ce que contient le projet
+
+### 📱 Interfaces Utilisateurs
+- **Landing Page Premium** : Design soigné en blanc et vert, animations fluides (AOS), et formulaire de réservation rapide.
+- **Espace Client** : 
+  - Réservation de courses avec estimation de prix.
+  - **Suivi en temps réel** : Page de tracking dynamique avec mise à jour automatique (Polling) et animation du trajet sur carte Leaflet.js.
+  - Historique complet des courses.
+- **Espace Chauffeur** :
+  - Dashboard pour voir les courses "En attente" à proximité.
+  - Système d'acceptation et de gestion du cycle de vie de la course (Départ -> En cours -> Terminé).
+- **Dashboard Admin Dédié** : 
+  - Layout unique avec **Sidebar verticale**.
+  - Monitoring global de l'activité et statistiques de revenus.
+
+### ⚙️ Logique Métier
+- **Système de Rôles** : Gestion distincte des permissions pour Clients, Chauffeurs et Admins.
+- **Cycle de Course Uber-like** : Demande -> Attente -> Acceptation Chauffeur -> Trajet -> Finalisation.
+- **Simulation Temps Réel** : Mise à jour automatique de l'interface client dès qu'un chauffeur accepte la course (via Polling JS).
+- **Calcul de Tarif** : Algorithme d'estimation basé sur la distance simulée.
+
+---
+
+## 🛠️ Stack Technique
+- **Backend** : Laravel 12 (PHP)
+- **Frontend** : Blade Templates, Bootstrap 5, AOS.js (Animations)
+- **Maps** : Leaflet.js (OpenStreetMap)
+- **Auth** : Laravel Breeze (Personnalisé en Bootstrap)
+- **Base de données** : MySQL / SQLite (Eloquent ORM)
+
+---
+
+## 🚀 Guide de Démarrage Rapide
+
+### 1. Installation
+```bash
+# Cloner le dépôt
+git clone https://github.com/Leandre99/Fleet.git
+cd Fleet
+
+# Installer les dépendances PHP
+composer install
+
+# Installer les dépendances Node (optionnel pour la prod)
+npm install && npm run build
+```
+
+### 2. Configuration
+- Créez votre base de données.
+- Copiez le fichier `.env.example` en `.env` :
+  ```bash
+  cp .env.example .env
+  ```
+- Générez la clé d'application :
+  ```bash
+  php artisan key:generate
+  ```
+
+### 3. Base de données & Données de test
+Lancez les migrations et le seeder pour créer les rôles et les comptes de démonstration :
+```bash
+php artisan migrate:fresh --seed --class=UserRoleSeeder
+```
+
+### 4. Lancement
+```bash
+php artisan serve
+```
+Le site sera accessible sur `http://127.0.0.1:8000`.
+
+---
+
+## 🔑 Identifiants de Connexion (Démos)
+Tous les comptes utilisent le mot de passe : `password`
+
+| Rôle | Email | Description |
+| :--- | :--- | :--- |
+| **Administrateur** | `admin@fleet.com` | Accès à la gestion globale et sidebar. |
+| **Chauffeur** | `driver@fleet.com` | Accès aux courses à accepter. |
+| **Client** | `client@fleet.com` | Accès à la réservation et au suivi. |
+
+---
+
+## 📸 Aperçus Visuels
+- **Hero Section** : Image HD d'une Mercedes S-Class à Dubaï.
+- **Tracking** : Animation d'un marqueur véhicule sur une carte dynamique.
+- **Admin** : Interface sombre et épurée pour la gestion.
+
+---
+Développé par **Leandre99** avec passion pour l'excellence opérationnelle.
