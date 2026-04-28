@@ -75,17 +75,14 @@
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
                 </li>
-                <li>
-                    <a href="#"><i class="bi bi-car-front me-2"></i> Véhicules</a>
+                <li class="{{ request()->routeIs('admin.drivers') ? 'active' : '' }}">
+                    <a href="{{ route('admin.drivers') }}"><i class="bi bi-people me-2"></i> Chauffeurs</a>
                 </li>
-                <li>
-                    <a href="#"><i class="bi bi-people me-2"></i> Chauffeurs</a>
+                <li class="{{ request()->routeIs('admin.clients') ? 'active' : '' }}">
+                    <a href="{{ route('admin.clients') }}"><i class="bi bi-person me-2"></i> Clients</a>
                 </li>
-                <li>
-                    <a href="#"><i class="bi bi-geo-alt me-2"></i> Trajets</a>
-                </li>
-                <li>
-                    <a href="#"><i class="bi bi-bar-chart me-2"></i> Rapports</a>
+                <li class="{{ request()->routeIs('admin.rides') ? 'active' : '' }}">
+                    <a href="{{ route('admin.rides') }}"><i class="bi bi-geo-alt me-2"></i> Courses</a>
                 </li>
                 <hr class="mx-3 border-secondary">
                 <li>

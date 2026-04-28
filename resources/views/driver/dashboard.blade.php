@@ -66,7 +66,13 @@
         <div class="col-lg-8">
             <h4 class="fw-bold mb-4">Courses Disponibles</h4>
             
-            @if($availableRides->isEmpty())
+            @if(!$is_approved)
+                <div class="card border-0 shadow-sm p-5 text-center rounded-4 border-warning border-start border-5">
+                    <i class="bi bi-hourglass-split text-warning display-1 mb-3"></i>
+                    <h5>Votre compte est en attente de validation</h5>
+                    <p class="text-muted">Un administrateur doit approuver votre profil avant que vous ne puissiez recevoir et accepter des courses.</p>
+                </div>
+            @elseif($availableRides->isEmpty())
                 <div class="card border-0 shadow-sm p-5 text-center rounded-4">
                     <i class="bi bi-search text-muted display-1 mb-3"></i>
                     <h5>Aucune course disponible pour le moment</h5>

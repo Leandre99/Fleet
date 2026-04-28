@@ -43,8 +43,14 @@ Route::middleware('auth')->group(function () {
     });
 
     // Admin Routes
-    Route::middleware('role:admin')->group(function () {
-        // Admin specific routes can go here
+    Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/drivers', [\App\Http\Controllers\AdminController::class, 'drivers'])->name('drivers');
+        Route::get('/clients', [\App\Http\Controllers\AdminController::class, 'clients'])->name('clients');
+        Route::get('/rides', [\App\Http\Controllers\AdminController::class, 'rides'])->name('rides');
+        
+        Route::post('/users/{id}/toggle-active', [\App\Http\Controllers\AdminController::class, 'toggleActive'])->name('users.toggle-active');
+        Route::post('/users/{id}/approve', [\App\Http\Controllers\AdminController::class, 'approveDriver'])->name('users.approve');
+        Route::post('/rides/{id}/cancel', [\App\Http\Controllers\AdminController::class, 'cancelRide'])->name('rides.cancel');
     });
 });
 

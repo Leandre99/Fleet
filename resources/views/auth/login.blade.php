@@ -17,12 +17,22 @@
 
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control bg-light border-0 py-2" required autofocus>
+                        <input type="email" name="email" class="form-control bg-light border-0 py-2 @error('email') is-invalid @enderror" value="{{ old('email') }}" required autofocus>
+                        @error('email')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Mot de passe</label>
-                        <input type="password" name="password" class="form-control bg-light border-0 py-2" required>
+                        <input type="password" name="password" class="form-control bg-light border-0 py-2 @error('password') is-invalid @enderror" required>
+                        @error('password')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="form-check mb-4">

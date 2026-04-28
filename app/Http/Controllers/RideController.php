@@ -21,14 +21,17 @@ class RideController extends Controller
         }
 
         if ($user->role === 'driver') {
-            // Rides available to accept
-            $availableRides = Ride::where('status', 'pending')->latest()->get();
+            $is_approved = $user->is_approved;
+            
+            // Rides available to accept (only if approved)
+            $availableRides = $is_approved ? Ride::where('status', 'pending')->latest()->get() : collect();
+            
             // Active ride for this driver
             $activeRide = Ride::where('driver_id', $user->id)
                 ->whereIn('status', ['accepted', 'ongoing'])
                 ->first();
                 
-            return view('driver.dashboard', compact('availableRides', 'activeRide'));
+            return view('driver.dashboard', compact('availableRides', 'activeRide', 'is_approved'));
         }
 
         // For clients, show their history

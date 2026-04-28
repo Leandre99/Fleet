@@ -26,6 +26,14 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label">Je souhaite m'inscrire en tant que :</label>
+                        <select name="role" class="form-select bg-light border-0 py-2" required>
+                            <option value="client">Client (Passager)</option>
+                            <option value="driver">Chauffeur</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label">Mot de passe</label>
                         <input type="password" name="password" class="form-control bg-light border-0 py-2" required>
                     </div>
