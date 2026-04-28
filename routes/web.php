@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     // Client Routes
     Route::post('/booking/estimate', [RideController::class, 'store'])->name('rides.store');
     Route::post('/rides/{id}/cancel', [RideController::class, 'cancel'])->name('rides.cancel');
+    Route::post('/rides/{id}/rate', [RideController::class, 'rate'])->name('rides.rate');
 
     // Driver Routes
     Route::middleware('role:driver')->group(function () {

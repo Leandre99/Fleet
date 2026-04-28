@@ -116,4 +116,31 @@ class RideController extends Controller
         $ride->update(['status' => 'completed']);
         return back()->with('success', 'Course terminée. Paiement en attente.');
     }
+    /**
+     * Client rates the ride and completes payment.
+     */
+    public function rate(Request $request, $id)
+    {
+        $ride = Ride::findOrFail($id);
+
+        // Ensure only the client of this ride can rate it
+        if ($ride->client_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:500',
+            'payment_method' => 'required|string|in:card,cash',
+        ]);
+
+        $ride->update([
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+            'payment_method' => $request->payment_method,
+            'payment_status' => 'paid', // Mark as paid for both methods in this simulation
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Merci pour votre retour ! Votre paiement a été traité avec succès.');
+    }
 }

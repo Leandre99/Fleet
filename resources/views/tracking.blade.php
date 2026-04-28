@@ -31,9 +31,38 @@
                         <hr>
                         <p class="mb-0">Destination: <strong>{{ $ride->destination_address }}</strong></p>
                     @elseif($ride->status === 'completed')
-                        <h4 class="mb-3 text-white"><i class="bi bi-flag-fill me-2"></i>Arrivé !</h4>
-                        <p class="mb-0">Merci d'avoir voyagé avec Fleet Premium.</p>
-                        <a href="{{ route('dashboard') }}" class="btn btn-light mt-3">Voir ma facture</a>
+                        <h4 class="mb-3 text-white"><i class="bi bi-flag-fill me-2"></i>Course Terminée !</h4>
+                        <p class="mb-4">Merci d'avoir voyagé avec <strong>Fleet Premium</strong>. Votre chauffeur a marqué la course comme terminée.</p>
+                        
+                        <div class="bg-white text-dark p-4 rounded-4 shadow-sm mb-3">
+                            <h5 class="fw-bold text-center mb-3">Votre avis nous intéresse</h5>
+                            <form action="{{ route('rides.rate', $ride->id) }}" method="POST">
+                                @csrf
+                                <div class="star-rating mb-3">
+                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Excellent"><i class="bi bi-star-fill"></i></label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Très bien"><i class="bi bi-star-fill"></i></label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Bien"><i class="bi bi-star-fill"></i></label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Passable"><i class="bi bi-star-fill"></i></label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Médiocre"><i class="bi bi-star-fill"></i></label>
+                                </div>
+                                <div class="mb-3 text-center">
+                                    <label class="form-label d-block mb-2">Mode de paiement</label>
+                                    <div class="btn-group w-100" role="group">
+                                        <input type="radio" class="btn-check" name="payment_method" id="pay_card" value="card" checked autocomplete="off">
+                                        <label class="btn btn-outline-success" for="pay_card"><i class="bi bi-credit-card me-2"></i>Carte</label>
+                                        
+                                        <input type="radio" class="btn-check" name="payment_method" id="pay_cash" value="cash" autocomplete="off">
+                                        <label class="btn btn-outline-success" for="pay_cash"><i class="bi bi-cash-stack me-2"></i>Espèces</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea name="comment" class="form-control border-0 bg-light" rows="3" placeholder="Un commentaire sur votre trajet ? (Optionnel)"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary-green w-100 py-3 fw-bold">
+                                    <i class="bi bi-check-circle me-2"></i>VALIDER & NOTER
+                                </button>
+                            </form>
+                        </div>
                     @elseif($ride->status === 'cancelled')
                         <h4 class="mb-3 text-danger"><i class="bi bi-x-circle-fill me-2"></i>Annulée</h4>
                         <p class="mb-0">La course a été annulée.</p>

@@ -21,6 +21,10 @@ class Ride extends Model
         'distance_km',
         'price',
         'status',
+        'rating',
+        'comment',
+        'payment_status',
+        'payment_method',
     ];
 
     public function client()

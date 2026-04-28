@@ -98,12 +98,27 @@
             @endif
         </div>
         <div class="col-lg-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 bg-light">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-light mb-4">
                 <h5 class="fw-bold mb-3">Statistiques du Jour</h5>
                 <p class="d-flex justify-content-between"><span>Courses terminées</span> <strong>0</strong></p>
                 <p class="d-flex justify-content-between"><span>Total Gains</span> <strong>0.00 €</strong></p>
                 <hr>
                 <p class="text-muted small">Restez à proximité des zones à forte demande pour recevoir plus de courses.</p>
+            </div>
+
+            <div class="card border-0 shadow-sm p-4 rounded-4">
+                <h5 class="fw-bold mb-3">Mon Compte</h5>
+                <ul class="nav flex-column gap-2">
+                    <li class="nav-item">
+                        <a href="{{ route('profile.edit') }}" class="nav-link text-dark p-0"><i class="bi bi-person-gear me-2 text-success"></i>Modifier Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="nav-link text-danger border-0 bg-transparent p-0 w-100 text-start"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</button>
+                        </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

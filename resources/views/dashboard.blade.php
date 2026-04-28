@@ -50,6 +50,19 @@
                                 <p class="mb-1 fw-bold">#{{ $ride->id }} - {{ $ride->status === 'completed' ? 'Terminée' : 'En cours' }}</p>
                                 <p class="mb-0 text-muted small"><i class="bi bi-geo-alt text-success me-1"></i>{{ $ride->pickup_address }}</p>
                                 <p class="mb-0 text-muted small"><i class="bi bi-flag text-danger me-1"></i>{{ $ride->destination_address }}</p>
+                                @if($ride->rating)
+                                    <div class="mt-2 text-warning">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <i class="bi bi-star{{ $i <= $ride->rating ? '-fill' : '' }}"></i>
+                                        @endfor
+                                    </div>
+                                @endif
+                                @if($ride->payment_method)
+                                    <p class="mt-2 mb-0 small text-muted">
+                                        <i class="bi bi-{{ $ride->payment_method === 'card' ? 'credit-card' : 'cash-stack' }} me-1"></i>
+                                        Paiement par {{ $ride->payment_method === 'card' ? 'Carte' : 'Espèces' }}
+                                    </p>
+                                @endif
                             </div>
                             <div class="col-md-3 text-center">
                                 <p class="mb-0 fw-bold text-success">{{ number_format($ride->price, 2) }} €</p>

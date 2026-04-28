@@ -152,3 +152,28 @@ body {
 .animate-up {
     animation: fadeInUp 0.8s ease forwards;
 }
+
+/* Star Rating */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+.star-rating input {
+    display: none;
+}
+.star-rating label {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: 0.2s;
+    margin: 0 5px;
+}
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+    color: #f1c40f;
+}
+.star-rating label:active {
+    transform: scale(0.9);
+}
