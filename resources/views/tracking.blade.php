@@ -73,7 +73,17 @@
                                     <p class="mb-0">Note : <strong>{{ $ride->rating }}/5</strong> <i class="bi bi-star-fill text-warning"></i></p>
                                     @endif
                                 @else
-                                    <p class="text-muted small">Veuillez remettre <strong>{{ number_format($ride->price, 2) }} €</strong> en espèces au chauffeur. Il validera ensuite la course.</p>
+                                    @if($ride->payment_method === 'card')
+                                        <p class="text-muted small">Veuillez procéder au règlement de <strong>{{ number_format($ride->price, 2) }} €</strong> par carte.</p>
+                                        <form action="{{ route('rides.pay', $ride->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success w-100 fw-bold">
+                                                <i class="bi bi-credit-card-fill me-2"></i>PAYER MAINTENANT
+                                            </button>
+                                        </form>
+                                    @else
+                                        <p class="text-muted small">Veuillez remettre <strong>{{ number_format($ride->price, 2) }} €</strong> en espèces au chauffeur. Il validera ensuite la course.</p>
+                                    @endif
                                 @endif
                             </div>
                             @endif

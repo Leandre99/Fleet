@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/booking/estimate', [RideController::class, 'store'])->name('rides.store');
     Route::post('/rides/{id}/cancel', [RideController::class, 'cancel'])->name('rides.cancel');
     Route::post('/rides/{id}/rate', [RideController::class, 'rate'])->name('rides.rate');
+    Route::post('/rides/{id}/pay', [RideController::class, 'simulatePayment'])->name('rides.pay');
 
     // Driver Routes
     Route::middleware('role:driver')->group(function () {

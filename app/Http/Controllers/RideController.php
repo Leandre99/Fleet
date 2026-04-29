@@ -225,14 +225,27 @@ class RideController extends Controller
     public function confirmPayment($id)
     {
         $ride = Ride::findOrFail($id);
-
-        // Ensure only the assigned driver can confirm payment
+        
+        // Only driver of this ride can confirm cash payment
         if ($ride->driver_id !== Auth::id()) {
             abort(403);
         }
 
         $ride->update(['payment_status' => 'paid']);
 
-        return back()->with('success', 'Paiement confirmé ! La course est désormais clôturée.');
+        return back()->with('success', 'Paiement confirmé ! La course est maintenant totalement clôturée.');
+    }
+
+    public function simulatePayment($id)
+    {
+        $ride = Ride::findOrFail($id);
+
+        if ($ride->payment_method !== 'card') {
+            return back()->with('error', 'Seuls les paiements par carte peuvent être simulés ici.');
+        }
+
+        $ride->update(['payment_status' => 'paid']);
+
+        return back()->with('success', 'Paiement par carte réussi (Simulation) !');
     }
 }
