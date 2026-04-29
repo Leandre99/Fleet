@@ -47,7 +47,7 @@
                     <div class="card-body p-4">
                         <div class="row align-items-center">
                             <div class="col-md-6">
-                                <p class="mb-1 fw-bold">#{{ $ride->id }} - {{ $ride->status === 'completed' ? 'Terminée' : 'En cours' }}</p>
+                                <p class="mb-1 fw-bold">#{{ $ride->id }} - {{ $ride->status === 'completed' ? 'Terminée' : ($ride->status === 'cancelled' ? 'Annulée' : 'En cours') }}</p>
                                 <p class="mb-0 text-muted small"><i class="bi bi-geo-alt text-success me-1"></i>{{ $ride->pickup_address }}</p>
                                 <p class="mb-0 text-muted small"><i class="bi bi-flag text-danger me-1"></i>{{ $ride->destination_address }}</p>
                                 @if($ride->rating)

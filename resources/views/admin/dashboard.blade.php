@@ -53,6 +53,7 @@
                         <th class="p-4">Départ / Arrivée</th>
                         <th class="p-4">Tarif</th>
                         <th class="p-4">Status</th>
+                        <th class="p-4">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,9 +63,9 @@
                         <td class="p-4 fw-bold">{{ $ride->client->name }}</td>
                         <td class="p-4 text-muted">{{ $ride->driver ? $ride->driver->name : 'Non assigné' }}</td>
                         <td class="p-4">
-                            <small class="d-block text-truncate" style="max-width: 150px;">{{ $ride->pickup_address }}</small>
+                            <small class="d-block text-truncate" style="max-width: 150px;" title="{{ $ride->pickup_address }}">{{ $ride->pickup_address }}</small>
                             <i class="bi bi-arrow-down text-success small"></i>
-                            <small class="d-block text-truncate" style="max-width: 150px;">{{ $ride->destination_address }}</small>
+                            <small class="d-block text-truncate" style="max-width: 150px;" title="{{ $ride->destination_address }}">{{ $ride->destination_address }}</small>
                         </td>
                         <td class="p-4 fw-bold text-success">{{ number_format($ride->price, 2) }} €</td>
                         <td class="p-4">
@@ -77,6 +78,9 @@
                             @elseif($ride->status === 'completed')
                                 <span class="badge bg-success">Terminé</span>
                             @endif
+                        </td>
+                        <td class="p-4">
+                            <a href="{{ route('tracking', $ride->id) }}" class="btn btn-sm btn-outline-primary">Détails</a>
                         </td>
                     </tr>
                     @endforeach

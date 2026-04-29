@@ -12,6 +12,7 @@ class Ride extends Model
     protected $fillable = [
         'client_id',
         'driver_id',
+        'vehicle_type_id',
         'pickup_address',
         'destination_address',
         'pickup_lat',
@@ -35,5 +36,10 @@ class Ride extends Model
     public function driver()
     {
         return $this->belongsTo(User::class, 'driver_id');
+    }
+
+    public function vehicleType()
+    {
+        return $this->belongsTo(VehicleType::class);
     }
 }

@@ -28,7 +28,13 @@ class RideController extends Controller
             
             // Active ride for this driver
             $activeRide = Ride::where('driver_id', $user->id)
-                ->whereIn('status', ['accepted', 'ongoing'])
+                ->where(function($q) {
+                    $q->whereIn('status', ['accepted', 'ongoing'])
+                      ->orWhere(function($q2) {
+                          $q2->where('status', 'completed')
+                             ->where('payment_status', '!=', 'paid');
+                      });
+                })
                 ->first();
                 
             return view('driver.dashboard', compact('availableRides', 'activeRide', 'is_approved'));

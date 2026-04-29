@@ -32,10 +32,18 @@
                     </div>
 
                     <div class="alert alert-light border-0 rounded-3 mb-4">
-                        <div class="d-flex justify-content-between">
-                            <span>Client: <strong>{{ $activeRide->client->name }}</strong></span>
-                            <span>Tarif: <strong class="text-success">{{ number_format($activeRide->price, 2) }} €</strong></span>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="d-block text-muted small">Client</span>
+                                <strong>{{ $activeRide->client->name }}</strong>
+                            </div>
+                            <div>
+                                <span class="d-block text-muted small text-end">Tarif</span>
+                                <strong class="text-success fs-5">{{ number_format($activeRide->price, 2) }} €</strong>
+                            </div>
                         </div>
+                        <hr>
+                        <a href="tel:+33600000000" class="btn btn-outline-secondary btn-sm w-100"><i class="bi bi-telephone-fill me-2"></i>Contacter le client (+33 6 00 00 00 00)</a>
                     </div>
 
                     <div class="d-flex gap-3">
@@ -49,6 +57,12 @@
                             @csrf
                             <button class="btn btn-success btn-lg w-100 py-3 rounded-3">TERMINER LA COURSE</button>
                         </form>
+                        @elseif($activeRide->status === 'completed')
+                        <div class="alert alert-warning w-100 text-center mb-0">
+                            <div class="spinner-border spinner-border-sm text-warning me-2" role="status"></div>
+                            <strong>En attente du paiement...</strong>
+                            <p class="mb-0 small mt-1">Le client procède actuellement au paiement.</p>
+                        </div>
                         @endif
                     </div>
                 </div>
@@ -133,11 +147,24 @@
 @endsection
 
 @push('scripts')
-@if($activeRide)
 <script>
+    @if($activeRide)
     var map = L.map('map').setView([48.8566, 2.3522], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     L.marker([48.8566, 2.3522]).addTo(map).bindPopup('Position actuelle').openPopup();
+    
+    @if($activeRide->status === 'completed')
+    // Polling to check if client paid
+    setInterval(function() {
+        fetch(window.location.href)
+            .then(response => response.text())
+            .then(html => {
+                if (!html.includes('En attente du paiement')) {
+                    window.location.reload();
+                }
+            });
+    }, 3000);
+    @endif
+    @endif
 </script>
-@endif
 @endpush

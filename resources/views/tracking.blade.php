@@ -33,10 +33,10 @@
                     @elseif($ride->status === 'completed')
                         <h4 class="mb-3 text-white"><i class="bi bi-flag-fill me-2"></i>Course Terminée !</h4>
                         <p class="mb-4">Merci d'avoir voyagé avec <strong>Fleet Premium</strong>. Votre chauffeur a marqué la course comme terminée.</p>
-                        
                         <div class="bg-white text-dark p-4 rounded-4 shadow-sm mb-3">
                             <h5 class="fw-bold text-center mb-3">Votre avis nous intéresse</h5>
-                            <form action="{{ route('rides.rate', $ride->id) }}" method="POST">
+                            @if($ride->payment_status !== 'paid')
+                            <form id="payment-form" action="{{ route('rides.rate', $ride->id) }}" method="POST">
                                 @csrf
                                 <div class="star-rating mb-3">
                                     <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Excellent"><i class="bi bi-star-fill"></i></label>
@@ -58,10 +58,20 @@
                                 <div class="mb-3">
                                     <textarea name="comment" class="form-control border-0 bg-light" rows="3" placeholder="Un commentaire sur votre trajet ? (Optionnel)"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary-green w-100 py-3 fw-bold">
+                                <button type="submit" id="submit-btn" class="btn btn-primary-green w-100 py-3 fw-bold">
                                     <i class="bi bi-check-circle me-2"></i>VALIDER & NOTER
                                 </button>
                             </form>
+                            @else
+                            <div class="text-center">
+                                <i class="bi bi-check-circle-fill text-success fs-1 mb-3"></i>
+                                <h6 class="fw-bold">Paiement effectué</h6>
+                                <p class="text-muted small">Règlement par {{ $ride->payment_method === 'card' ? 'Carte' : 'Espèces' }}.</p>
+                                @if($ride->rating)
+                                <p class="mb-0">Note : <strong>{{ $ride->rating }}/5</strong> <i class="bi bi-star-fill text-warning"></i></p>
+                                @endif
+                            </div>
+                            @endif
                         </div>
                     @elseif($ride->status === 'cancelled')
                         <h4 class="mb-3 text-danger"><i class="bi bi-x-circle-fill me-2"></i>Annulée</h4>
@@ -90,6 +100,28 @@
                         <span class="fw-bold text-success">{{ number_format($ride->price, 2) }} €</span>
                     </div>
                 </div>
+
+                @if($ride->driver)
+                <div class="card border-0 shadow-sm rounded-4 p-4 mt-4">
+                    <h5>Chauffeur & Véhicule</h5>
+                    <div class="d-flex align-items-center mt-3">
+                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                            <i class="bi bi-person-fill text-success fs-3"></i>
+                        </div>
+                        <div>
+                            <p class="fw-bold mb-0">{{ $ride->driver->name }}</p>
+                            <p class="text-muted small mb-1">Mercedes Classe S (Noir) - AB-123-CD</p>
+                            <div class="text-warning small">
+                                <i class="bi bi-star-fill"></i> 4.9 (120 avis)
+                            </div>
+                        </div>
+                    </div>
+                    @if(in_array($ride->status, ['accepted', 'ongoing']))
+                    <hr>
+                    <a href="tel:+33600000000" class="btn btn-outline-success w-100"><i class="bi bi-telephone-fill me-2"></i>Appeler le chauffeur (+33 6 00 00 00 00)</a>
+                    @endif
+                </div>
+                @endif
             </div>
             <div class="col-lg-8">
                 <div id="map" style="height: 500px; border-radius: 20px;" class="shadow"></div>
@@ -102,6 +134,8 @@
 @push('scripts')
 <script>
     var rideStatus = "{{ $ride->status }}";
+    var startPos = [{{ $ride->pickup_lat ?? 48.8566 }}, {{ $ride->pickup_lng ?? 2.3522 }}];
+    var endPos = [{{ $ride->destination_lat ?? 48.8766 }}, {{ $ride->destination_lng ?? 2.3722 }}];
     var map = L.map('map').setView([48.8566, 2.3522], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
@@ -149,5 +183,17 @@
                 });
         }, 3000);
     }
+
+    document.getElementById('payment-form')?.addEventListener('submit', function(e) {
+        if (document.getElementById('pay_card') && document.getElementById('pay_card').checked) {
+            e.preventDefault();
+            var btn = document.getElementById('submit-btn');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Traitement...';
+            btn.disabled = true;
+            setTimeout(() => {
+                this.submit();
+            }, 2000);
+        }
+    });
 </script>
 @endpush
