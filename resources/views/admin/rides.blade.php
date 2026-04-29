@@ -47,14 +47,23 @@
                         @endif
                     </td>
                     <td class="p-4 text-end">
-                        @if(!in_array($ride->status, ['completed', 'cancelled']))
-                        <form action="{{ route('admin.rides.cancel', $ride->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Annuler la course manuellement" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette course ?')">
-                                <i class="bi bi-x-circle"></i> Annuler
-                            </button>
-                        </form>
-                        @endif
+                        <div class="d-flex justify-content-end gap-2">
+                            @if(!in_array($ride->status, ['completed', 'cancelled']))
+                            <form action="{{ route('admin.rides.cancel', $ride->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-outline-warning" title="Annuler" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette course ?')">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </form>
+                            @endif
+                            <form action="{{ route('admin.rides.destroy', $ride->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Supprimer définitivement" onclick="return confirm('ATTENTION : Cette action est irréversible. Supprimer cette course ?')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @empty

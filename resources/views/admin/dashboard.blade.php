@@ -80,7 +80,16 @@
                             @endif
                         </td>
                         <td class="p-4">
-                            <a href="{{ route('tracking', $ride->id) }}" class="btn btn-sm btn-outline-primary">Détails</a>
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('tracking', $ride->id) }}" class="btn btn-sm btn-outline-primary" title="Voir détails">Détails</a>
+                                <form action="{{ route('admin.rides.destroy', $ride->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Supprimer" onclick="return confirm('Supprimer définitivement cette course ?')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

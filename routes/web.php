@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/users/{id}/toggle-active', [\App\Http\Controllers\AdminController::class, 'toggleActive'])->name('users.toggle-active');
         Route::post('/users/{id}/approve', [\App\Http\Controllers\AdminController::class, 'approveDriver'])->name('users.approve');
         Route::post('/rides/{id}/cancel', [\App\Http\Controllers\AdminController::class, 'cancelRide'])->name('rides.cancel');
+        Route::delete('/rides/{id}', [\App\Http\Controllers\AdminController::class, 'destroyRide'])->name('rides.destroy');
     });
 });
 

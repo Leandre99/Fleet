@@ -86,4 +86,15 @@ class AdminController extends Controller
 
         return back()->with('success', 'La course a été annulée manuellement.');
     }
+
+    /**
+     * Delete a ride permanently.
+     */
+    public function destroyRide($id)
+    {
+        $ride = Ride::findOrFail($id);
+        $ride->delete();
+
+        return back()->with('success', 'La course a été supprimée définitivement.');
+    }
 }
