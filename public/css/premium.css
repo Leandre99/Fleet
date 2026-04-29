@@ -22,11 +22,12 @@ body {
 
 /* Navbar */
 .navbar {
-    background: var(--glass);
+    background: var(--white); /* Fond blanc solide pour éviter le mélange */
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     padding: 1rem 0;
     transition: all 0.3s ease;
+    z-index: 1050; /* Assure que la navbar est au-dessus de tout */
 }
 
 .navbar-brand {
