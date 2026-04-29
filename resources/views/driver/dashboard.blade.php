@@ -89,6 +89,8 @@
         <div class="col-lg-8">
             <h4 class="fw-bold mb-4">Courses Disponibles</h4>
             
+            <div id="available-rides">
+            
             @if(!$is_approved)
                 <div class="card border-0 shadow-sm p-5 text-center rounded-4 border-warning border-start border-5">
                     <i class="bi bi-hourglass-split text-warning display-1 mb-3"></i>
@@ -125,6 +127,7 @@
                 </div>
                 @endforeach
             @endif
+            </div>
         </div>
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm p-4 rounded-4 bg-light mb-4 text-center">
@@ -181,8 +184,23 @@
                     window.location.reload();
                 }
             });
-    }, 3000);
+    }, 2000);
     @endif
+    @else
+    // Polling to check for new missions when IDLE
+    setInterval(function() {
+        fetch(window.location.href)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newMissions = doc.getElementById('available-rides')?.innerHTML;
+                const oldMissions = document.getElementById('available-rides');
+                if (oldMissions && newMissions && newMissions !== oldMissions.innerHTML) {
+                    window.location.reload();
+                }
+            });
+    }, 2000);
     @endif
 </script>
 @endpush

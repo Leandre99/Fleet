@@ -196,7 +196,7 @@
                         window.location.reload(); // Reload if status changed
                     }
                 });
-        }, 3000);
+        }, 2000);
     }
 
     document.getElementById('payment-form')?.addEventListener('submit', function(e) {
