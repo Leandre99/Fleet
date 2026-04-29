@@ -13,27 +13,37 @@ class UserRoleSeeder extends Seeder
     public function run(): void
     {
         // Admin
-        \App\Models\User::create([
-            'name' => 'Admin Fleet',
-            'email' => 'admin@fleet.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'role' => 'admin',
-        ]);
+        \App\Models\User::updateOrCreate(
+            ['email' => 'admin@fleet.com'],
+            [
+                'name' => 'Admin Fleet',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'role' => 'admin',
+                'is_active' => true,
+            ]
+        );
 
         // Driver
-        \App\Models\User::create([
-            'name' => 'Jean Chauffeur',
-            'email' => 'driver@fleet.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'role' => 'driver',
-        ]);
+        \App\Models\User::updateOrCreate(
+            ['email' => 'driver@fleet.com'],
+            [
+                'name' => 'Jean Chauffeur',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'role' => 'driver',
+                'is_active' => true,
+                'is_approved' => true,
+            ]
+        );
 
         // Client
-        \App\Models\User::create([
-            'name' => 'Marc Client',
-            'email' => 'client@fleet.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'role' => 'client',
-        ]);
+        \App\Models\User::updateOrCreate(
+            ['email' => 'client@fleet.com'],
+            [
+                'name' => 'Marc Client',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'role' => 'client',
+                'is_active' => true,
+            ]
+        );
     }
 }
