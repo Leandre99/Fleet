@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ride;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class RideController extends Controller
 {
@@ -65,20 +66,75 @@ class RideController extends Controller
             'destination_address' => 'required|string',
         ]);
 
-        // Mock distance and price calculation
-        $distance = rand(5, 50);
+        // Geocoding via OpenStreetMap (Nominatim)
+        $pickup = $this->getCoordinates($request->pickup_address);
+        $destination = $this->getCoordinates($request->destination_address);
+
+        // Calculate real distance or fallback
+        if ($pickup && $destination) {
+            $distance = $this->calculateDistance($pickup['lat'], $pickup['lng'], $destination['lat'], $destination['lng']);
+        } else {
+            $distance = rand(5, 50);
+        }
+        
         $price = $distance * 1.5;
 
         $ride = Ride::create([
             'client_id' => Auth::id(),
             'pickup_address' => $request->pickup_address,
             'destination_address' => $request->destination_address,
+            'pickup_lat' => $pickup['lat'] ?? null,
+            'pickup_lng' => $pickup['lng'] ?? null,
+            'destination_lat' => $destination['lat'] ?? null,
+            'destination_lng' => $destination['lng'] ?? null,
             'distance_km' => $distance,
             'price' => $price,
             'status' => 'pending',
         ]);
 
         return redirect()->route('tracking', ['id' => $ride->id])->with('success', 'Recherche de chauffeur en cours...');
+    }
+
+    /**
+     * Get coordinates from address via OSM Nominatim.
+     */
+    private function getCoordinates($address)
+    {
+        try {
+            $response = Http::withHeaders(['User-Agent' => 'FleetPremiumApp'])
+                ->get('https://nominatim.openstreetmap.org/search', [
+                    'q' => $address,
+                    'format' => 'json',
+                    'limit' => 1
+                ]);
+
+            if ($response->successful() && count($response->json()) > 0) {
+                return [
+                    'lat' => (float) $response->json()[0]['lat'],
+                    'lng' => (float) $response->json()[0]['lon']
+                ];
+            }
+        } catch (\Exception $e) {}
+        return null;
+    }
+
+    /**
+     * Calculate distance between two points (Haversine).
+     */
+    private function calculateDistance($lat1, $lon1, $lat2, $lon2)
+    {
+        $earthRadius = 6371; // km
+        
+        $latDelta = deg2rad($lat2 - $lat1);
+        $lonDelta = deg2rad($lon2 - $lon1);
+        
+        $a = sin($latDelta / 2) * sin($latDelta / 2) +
+             cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
+             sin($lonDelta / 2) * sin($lonDelta / 2);
+             
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        
+        return round($earthRadius * $c, 2);
     }
 
     /**

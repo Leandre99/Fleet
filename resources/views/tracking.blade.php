@@ -141,7 +141,7 @@
     var rideStatus = "{{ $ride->status }}";
     var startPos = [{{ $ride->pickup_lat ?? 48.8566 }}, {{ $ride->pickup_lng ?? 2.3522 }}];
     var endPos = [{{ $ride->destination_lat ?? 48.8766 }}, {{ $ride->destination_lng ?? 2.3722 }}];
-    var map = L.map('map').setView([48.8566, 2.3522], 13);
+    var map = L.map('map').setView(startPos, 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     // Animation if ongoing

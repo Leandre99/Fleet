@@ -166,9 +166,10 @@
 @push('scripts')
 <script>
     @if($activeRide)
-    var map = L.map('map').setView([48.8566, 2.3522], 13);
+    var startPos = [{{ $activeRide->pickup_lat ?? 48.8566 }}, {{ $activeRide->pickup_lng ?? 2.3522 }}];
+    var map = L.map('map').setView(startPos, 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    L.marker([48.8566, 2.3522]).addTo(map).bindPopup('Position actuelle').openPopup();
+    L.marker(startPos).addTo(map).bindPopup('Position actuelle').openPopup();
     
     @if($activeRide->status === 'completed')
     // Polling to check if client paid
