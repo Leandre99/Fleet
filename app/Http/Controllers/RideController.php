@@ -26,6 +26,16 @@ class RideController extends Controller
             // Rides available to accept (only if approved)
             $availableRides = $is_approved ? Ride::where('status', 'pending')->latest()->get() : collect();
             
+            // Stats for this driver
+            $completedRidesCount = Ride::where('driver_id', $user->id)
+                ->where('status', 'completed')
+                ->where('payment_status', 'paid')
+                ->count();
+            
+            $totalGains = Ride::where('driver_id', $user->id)
+                ->where('status', 'completed')
+                ->where('payment_status', 'paid')
+                ->sum('price');
             // Active ride for this driver
             $activeRide = Ride::where('driver_id', $user->id)
                 ->where(function($q) {
@@ -36,8 +46,8 @@ class RideController extends Controller
                       });
                 })
                 ->first();
-                
-            return view('driver.dashboard', compact('availableRides', 'activeRide', 'is_approved'));
+
+            return view('driver.dashboard', compact('availableRides', 'activeRide', 'is_approved', 'completedRidesCount', 'totalGains'));
         }
 
         // For clients, show their history
@@ -147,9 +157,26 @@ class RideController extends Controller
             'rating' => $request->rating,
             'comment' => $request->comment,
             'payment_method' => $request->payment_method,
-            'payment_status' => 'paid', // Mark as paid for both methods in this simulation
+            'payment_status' => $request->payment_method === 'card' ? 'paid' : 'pending', 
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Merci pour votre retour ! Votre paiement a été traité avec succès.');
+        return redirect()->route('dashboard')->with('success', 'Merci pour votre retour ! ' . ($request->payment_method === 'card' ? 'Votre paiement a été traité avec succès.' : 'Veuillez remettre le paiement en espèces au chauffeur.'));
+    }
+
+    /**
+     * Driver confirms receipt of cash payment.
+     */
+    public function confirmPayment($id)
+    {
+        $ride = Ride::findOrFail($id);
+
+        // Ensure only the assigned driver can confirm payment
+        if ($ride->driver_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $ride->update(['payment_status' => 'paid']);
+
+        return back()->with('success', 'Paiement confirmé ! La course est désormais clôturée.');
     }
 }

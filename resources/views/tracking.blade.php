@@ -64,11 +64,16 @@
                             </form>
                             @else
                             <div class="text-center">
-                                <i class="bi bi-check-circle-fill text-success fs-1 mb-3"></i>
-                                <h6 class="fw-bold">Paiement effectué</h6>
-                                <p class="text-muted small">Règlement par {{ $ride->payment_method === 'card' ? 'Carte' : 'Espèces' }}.</p>
-                                @if($ride->rating)
-                                <p class="mb-0">Note : <strong>{{ $ride->rating }}/5</strong> <i class="bi bi-star-fill text-warning"></i></p>
+                                <i class="bi bi-{{ $ride->payment_status === 'paid' ? 'check-circle-fill text-success' : 'hourglass-split text-warning' }} fs-1 mb-3"></i>
+                                <h6 class="fw-bold">{{ $ride->payment_status === 'paid' ? 'Paiement effectué' : 'Paiement en attente' }}</h6>
+                                
+                                @if($ride->payment_status === 'paid')
+                                    <p class="text-muted small">Règlement par {{ $ride->payment_method === 'card' ? 'Carte' : 'Espèces' }}.</p>
+                                    @if($ride->rating)
+                                    <p class="mb-0">Note : <strong>{{ $ride->rating }}/5</strong> <i class="bi bi-star-fill text-warning"></i></p>
+                                    @endif
+                                @else
+                                    <p class="text-muted small">Veuillez remettre <strong>{{ number_format($ride->price, 2) }} €</strong> en espèces au chauffeur. Il validera ensuite la course.</p>
                                 @endif
                             </div>
                             @endif

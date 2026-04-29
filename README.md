@@ -6,35 +6,38 @@ Le projet est construit avec **Laravel 12** et **Bootstrap 5**, mettant l'accent
 
 ---
 
-## 🌟 Ce que contient le projet
+## 🌟 Fonctionnalités Clés
 
 ### 📱 Interfaces Utilisateurs
-- **Landing Page Premium** : Design soigné en blanc et vert, animations fluides (AOS), et formulaire de réservation rapide.
+- **Landing Page Premium** : Design moderne avec animations fluides (AOS) et formulaire de réservation rapide.
 - **Espace Client** : 
-  - Réservation de courses avec estimation de prix.
+  - Réservation de courses avec estimation de prix basée sur la distance.
   - **Suivi en temps réel** : Page de tracking dynamique avec mise à jour automatique (Polling) et animation du trajet sur carte Leaflet.js.
-  - Historique complet des courses.
+  - **Notation & Feedback** : Possibilité de noter le chauffeur et de laisser un commentaire après chaque course.
+  - **Choix du Paiement** : Sélection entre paiement par Carte (simulé) ou en Espèces.
 - **Espace Chauffeur** :
-  - Dashboard pour voir les courses "En attente" à proximité.
-  - Système d'acceptation et de gestion du cycle de vie de la course (Départ -> En cours -> Terminé).
+  - Dashboard pour voir les courses disponibles à proximité.
+  - **Validation de Paiement** : Pour les paiements en espèces, le chauffeur doit confirmer la réception manuellement pour clôturer la course.
+  - **Statistiques de Gains** : Suivi en temps réel du nombre de courses effectuées et du total des gains perçus.
 - **Dashboard Admin Dédié** : 
-  - Layout unique avec **Sidebar verticale**.
-  - Monitoring global de l'activité et statistiques de revenus.
+  - Monitoring global de l'activité.
+  - **Gestion des Utilisateurs** : Activation/Désactivation des comptes clients et chauffeurs.
+  - **Approbation des Chauffeurs** : Validation manuelle des nouveaux chauffeurs avant qu'ils ne puissent exercer.
+  - **Détails des Courses** : Vue détaillée de chaque trajet avec carte interactive.
 
 ### ⚙️ Logique Métier
-- **Système de Rôles** : Gestion distincte des permissions pour Clients, Chauffeurs et Admins.
-- **Cycle de Course Uber-like** : Demande -> Attente -> Acceptation Chauffeur -> Trajet -> Finalisation.
-- **Simulation Temps Réel** : Mise à jour automatique de l'interface client dès qu'un chauffeur accepte la course (via Polling JS).
-- **Calcul de Tarif** : Algorithme d'estimation basé sur la distance simulée.
+- **Système de Rôles** : Gestion robuste des permissions (Clients, Chauffeurs, Admins).
+- **Cycle de Course Complet** : Demande -> Acceptation -> Trajet -> Paiement -> Confirmation -> Notation.
+- **Calcul de Tarif** : Algorithme d'estimation dynamique.
 
 ---
 
 ## 🛠️ Stack Technique
 - **Backend** : Laravel 12 (PHP)
 - **Frontend** : Blade Templates, Bootstrap 5, AOS.js (Animations)
-- **Maps** : Leaflet.js (OpenStreetMap)
-- **Auth** : Laravel Breeze (Personnalisé en Bootstrap)
-- **Base de données** : MySQL / SQLite (Eloquent ORM)
+- **Cartographie** : Leaflet.js (OpenStreetMap)
+- **Authentification** : Laravel Breeze (Customisé)
+- **Base de données** : SQLite / MySQL (Eloquent ORM)
 
 ---
 
@@ -42,30 +45,21 @@ Le projet est construit avec **Laravel 12** et **Bootstrap 5**, mettant l'accent
 
 ### 1. Installation
 ```bash
-# Cloner le dépôt
 git clone https://github.com/Leandre99/Fleet.git
 cd Fleet
-
-# Installer les dépendances PHP
 composer install
-
-# Installer les dépendances Node (optionnel pour la prod)
 npm install && npm run build
 ```
 
 ### 2. Configuration
 - Créez votre base de données.
-- Copiez le fichier `.env.example` en `.env` :
+- Configurez votre fichier `.env` :
   ```bash
   cp .env.example .env
-  ```
-- Générez la clé d'application :
-  ```bash
   php artisan key:generate
   ```
 
 ### 3. Base de données & Données de test
-Lancez les migrations et le seeder pour créer les rôles et les comptes de démonstration :
 ```bash
 php artisan migrate:fresh --seed --class=UserRoleSeeder
 ```
@@ -74,25 +68,18 @@ php artisan migrate:fresh --seed --class=UserRoleSeeder
 ```bash
 php artisan serve
 ```
-Le site sera accessible sur `http://127.0.0.1:8000`.
 
 ---
 
 ## 🔑 Identifiants de Connexion (Démos)
-Tous les comptes utilisent le mot de passe : `password`
+Mot de passe par défaut : `password`
 
-| Rôle | Email | Description |
-| :--- | :--- | :--- |
-| **Administrateur** | `admin@fleet.com` | Accès à la gestion globale et sidebar. |
-| **Chauffeur** | `driver@fleet.com` | Accès aux courses à accepter. |
-| **Client** | `client@fleet.com` | Accès à la réservation et au suivi. |
-
----
-
-## 📸 Aperçus Visuels
-- **Hero Section** : Image HD d'une Mercedes S-Class à Dubaï.
-- **Tracking** : Animation d'un marqueur véhicule sur une carte dynamique.
-- **Admin** : Interface sombre et épurée pour la gestion.
+| Rôle | Email |
+| :--- | :--- |
+| **Admin** | `admin@fleet.com` |
+| **Chauffeur** | `driver@fleet.com` |
+| **Client** | `client@fleet.com` |
 
 ---
-Développé par **Leandre99** avec passion pour l'excellence opérationnelle.
+
+Développé par **Léandre ELISHA** et **TONATO Prince** avec passion.

@@ -61,7 +61,16 @@
                         <div class="alert alert-warning w-100 text-center mb-0">
                             <div class="spinner-border spinner-border-sm text-warning me-2" role="status"></div>
                             <strong>En attente du paiement...</strong>
-                            <p class="mb-0 small mt-1">Le client procède actuellement au paiement.</p>
+                            <p class="mb-2 small mt-1">Le client doit régler {{ number_format($activeRide->price, 2) }} € en {{ $activeRide->payment_method === 'cash' ? 'espèces' : 'carte' }}.</p>
+                            
+                            @if($activeRide->payment_method === 'cash')
+                            <form action="{{ route('rides.confirm-payment', $activeRide->id) }}" method="POST" class="mt-3">
+                                @csrf
+                                <button type="submit" class="btn btn-success btn-sm w-100 py-2 fw-bold">
+                                    <i class="bi bi-cash-stack me-2"></i>CONFIRMER RÉCEPTION DES ESPÈCES
+                                </button>
+                            </form>
+                            @endif
                         </div>
                         @endif
                     </div>
@@ -118,13 +127,21 @@
             @endif
         </div>
         <div class="col-lg-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 bg-light mb-4">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-light mb-4 text-center">
                 <h5 class="fw-bold mb-3">Statistiques du Jour</h5>
-                <p class="d-flex justify-content-between"><span>Courses terminées</span> <strong>0</strong></p>
-                <p class="d-flex justify-content-between"><span>Total Gains</span> <strong>0.00 €</strong></p>
-                <hr>
-                <p class="text-muted small">Restez à proximité des zones à forte demande pour recevoir plus de courses.</p>
+                <div class="row">
+                    <div class="col-6 border-end">
+                        <p class="text-muted small mb-1">Courses</p>
+                        <h4 class="fw-bold mb-0 text-dark">{{ $completedRidesCount }}</h4>
+                    </div>
+                    <div class="col-6">
+                        <p class="text-muted small mb-1">Gains</p>
+                        <h4 class="fw-bold mb-0 text-success">{{ number_format($totalGains, 2) }} €</h4>
+                    </div>
+                </div>
             </div>
+            <p class="text-muted small mt-2">Restez à proximité des zones à forte demande pour recevoir plus de courses.</p>
+        </div>
 
             <div class="card border-0 shadow-sm p-4 rounded-4">
                 <h5 class="fw-bold mb-3">Mon Compte</h5>

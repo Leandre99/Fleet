@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/rides/{id}/accept', [RideController::class, 'accept'])->name('rides.accept');
         Route::post('/rides/{id}/start', [RideController::class, 'start'])->name('rides.start');
         Route::post('/rides/{id}/complete', [RideController::class, 'complete'])->name('rides.complete');
+        Route::post('/rides/{id}/confirm-payment', [RideController::class, 'confirmPayment'])->name('rides.confirm-payment');
     });
 
     // Admin Routes
